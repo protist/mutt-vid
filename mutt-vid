@@ -2,15 +2,53 @@
 # to set a fall-back default, have the following line before sourcing $db_path
 #   send-hook . 'set from=default@foo.com"'
 # However, if you use multiple accounts, which change with folder-hooks, then you'd have to source this fallback then $db_path every time.
-# TODO: read config using flags. db_path and whether to keep a backup
-# TODO: "reset" db using flags
 # TODO: show duration of run
+# TODO: ignore list
+# TODO: only read "new" email. By `ctime`?
 
+# Define usage
+usage() {
+  cat <<EOF
+Usage: $0 [-d DATABASE] [-b] [-n] DIRECTORIES
+Parse maildir emails in DIRECTORIES into a mutt-sourcable database for send-hooks.
+OPTIONS:
+  -d          database location (default is ~/.mutt/sources/mutt-vid.db)
+  -b          backup the current database (if it exists) to *.prev
+  -n          create a new database, instead of modifying the entries in the current database
+  -h          display this help and exit
+EOF
+  exit 1
+}
+
+# Parse options
 db_path=~/.mutt/sources/mutt-vid.db
-db_path_prev="${db_path}.prev"
+backup='false'
+new='false'
+while getopts 'd:bnh' opt; do
+  case "${opt}" in
+    d) db_path="$OPTARG" ;;
+    b) backup='true' ;;
+    n) new='true' ;;
+    *) usage; exit 1 ;;
+  esac
+done
+shift $((OPTIND-1))
 
-# Make a backup of the current database file
-if [[ -f "$db_path" ]]; then cp "$db_path" "$db_path_prev"; fi
+if [[ $# == 0 ]]; then usage; fi
+
+# Make backup and/or clear previous database
+db_path_prev="${db_path}.prev"
+if [[ -f "$db_path" ]]; then
+  if [[ $backup == 'true' && $new == 'true' ]]; then
+    mv "$db_path" "$db_path_prev"
+  elif [[ $backup == 'true' && $new == 'false' ]]; then
+    cp "$db_path" "$db_path_prev"
+  elif [[ $backup == 'false' && $new == 'true' ]]; then
+    rm "$db_path"
+  fi
+fi
+
+touch "$db_path" # to prevent first grep error, if db doesn't exist
 
 for directory in "$@"; do
   echo "Processing ${directory}"
