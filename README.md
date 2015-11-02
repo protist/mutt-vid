@@ -39,3 +39,8 @@ You may use this database with multiple default accounts. This allows you to set
 
     send-hook . "set from=$my_from"
     source ${my_mutt-vid-db}
+
+###Limitations and workarounds
+* Mutt doesn't explicitly deal with conflicting sender accounts when composing to multiple recipients.
+* Hence, mutt-vid only scrapes details for recipients that are explicitly in the `TO:` field. It ignores recipients that are in the `CC:` or `BCC:` fields.
+* There is currently no way of ignoring or overriding details for a particular recipient. If a rule is manually added to the database, with a date in the far future as a comment (see previous entries for format), then it will never be replaced.

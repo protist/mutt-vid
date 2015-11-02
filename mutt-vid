@@ -14,7 +14,6 @@
 #
 # This script manages multiple sender accounts, allowing users to automatically associate an arbitrary sender account with a recipient. See README.md for more information and usage.
 # TODO: show duration of run
-# TODO: ignore list
 # TODO: only read "new" email. By `ctime`?
 
 # Define usage
@@ -83,8 +82,6 @@ for directory in "$@"; do
     if [[ $out_date == "" ]]; then out_date="10000101.000000"; fi
 
     # Split To: on `,` for multiple recipients
-    # TODO: what about cc's and bcc's?
-    # TODO: how to run the hook for multiple recipients? Impossible? What about conflicts?
     IFS=','
     for each_to in $escaped_to; do
       # Delete whitespace (possibly leading space from `, `), then remove real name (if present) anyway
