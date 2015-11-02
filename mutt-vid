@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
-# to set a fall-back default, have the following line before sourcing $db_path
-#   send-hook . 'set from=default@foo.com"'
-# However, if you use multiple accounts, which change with folder-hooks, then you'd have to source this fallback then $db_path every time.
+#
+# Copyright 2013 Lee M. Yeoh (email: "plast-dot-id-dot-au" follows "github")
+# This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# This script manages multiple sender accounts, allowing users to automatically associate an arbitrary sender account with a recipient. See README.md for more information and usage.
 # TODO: show duration of run
 # TODO: ignore list
 # TODO: only read "new" email. By `ctime`?
