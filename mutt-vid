@@ -13,7 +13,6 @@
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 # This script manages multiple sender accounts, allowing users to automatically associate an arbitrary sender account with a recipient. See README.md for more information and usage.
-# TODO: show duration of run
 # TODO: only read "new" email. By `ctime`?
 
 # Define usage
@@ -113,3 +112,7 @@ for directory in "$@"; do
     IFS=" "
   done
 done
+
+# Return time it took to run, removing leading zeros
+TOTALTIME=$(date -d "1970-01-01 ${SECONDS} sec" +'%T' | sed -r 's/^0(0:(0)?)?//')
+echo "Database updated in ${TOTALTIME}."
