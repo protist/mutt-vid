@@ -14,31 +14,11 @@ mutt-vid updates the database for emails that are newer than the one previously 
 * **Help** (`-h`): display a brief help, then exit.
 
 ###Source in `mutt`
-Source the database in your `muttrc` (e.g. with `source ~/.mutt/sources/mutt-vid.db`).
+Source the database in your `muttrc` (e.g. with `source ~/.mutt/sources/mutt-vid.db`). In my experience, sourcing even a 2000 line file has a near-zero effect on mutt's performance.
 
-###Multiple default accounts in mutt
-You may use this database with multiple default accounts. This allows you to set a default sender account depending on the current mailbox. For example, if you were in your work account's mailbox, email to a new recipient would be sent from your work account; if you were in your personal account, it would use your personal address. You can achieve this by changing the default with a `send-hook`, then sourcing the mutt-vid database again. Re-sourcing a large database is near instantaneous in my experience. An example follows.
+To use a default sender account for new recipients, include the following line before sourcing the `mutt-vid` database, replacing `foo@bar.com` with your email address.
 
-`~/.mutt/muttrc`:
-
-    set my_mutt-vid-db = ~/.mutt/sources/mutt-vid.db
-    folder-hook personal-folder source ~/.mutt/sources/account_personal
-    folder-hook work-folder source ~/.mutt/sources/account_work
-
-`~/.mutt/sources/account_personal`:
-
-    set my_from = 'foo@home.com'
-    source ~/.mutt/sources/post-account_switch
-
-`~/.mutt/sources/account_work`:
-
-    set my_from = 'foo@work.com'
-    source ~/.mutt/sources/post-account_switch
-
-`~/.mutt/sources/post-account_switch`:
-
-    send-hook . "set from=$my_from"
-    source ${my_mutt-vid-db}
+    send-hook . "set from=foo@bar.com"
 
 ###Limitations and workarounds
 * Mutt doesn't explicitly deal with conflicting sender accounts when composing to multiple recipients.
