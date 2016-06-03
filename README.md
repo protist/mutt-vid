@@ -3,7 +3,7 @@ Inspired by [Virtual Identity](https://www.absorb.it/virtual-id) for the Thunder
 
 ##Usage
 ###Create database with `mutt-vid`
-Run mutt-vid with the location of the directories containing your sent mail (in maildir format) as parameters. For example, `mutt-vid ~/.mail/*/*Sent*/cur`. The first run may take a while. (It takes about 10 minutes for me to go through 25 000 emails on an SSD in an aging laptop.)
+Run mutt-vid with the location of the directories containing your sent mail (in maildir format) as parameters. For example, `mutt-vid ~/.mail/*/*Sent*/cur`. The first run may take a while. (It takes about 15 minutes for me to go through 26 000 emails on an SSD in an aging laptop.)
 
 mutt-vid updates the database for emails that are newer than the one previously saved. Hence, you only need to run mutt-vid on directories that have been updated since the last run. This makes subsequent runs much quicker if you archive your sent email into separate folders (e.g. by year).
 

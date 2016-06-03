@@ -88,6 +88,11 @@ for directory in "$@"; do
 
       # Check that from and to exist, and there is a single @ in the to address (since this block splits on , in real names)
       if [[ "$out_from" != "" && "$out_to" != "" && "$out_to" =~ ^[^@]+@[^@]+$ ]]; then
+        # Domain names are case-insensitive, so let's just consider them all to be lower case
+	local_out_to="$(<<<$out_to grep -o '^[^@]*')"
+	domain_out_to="$(<<<$out_to grep -o '[^@]*$' | tr '[A-Z]' '[a-z]')"
+	out_to="$(echo "${local_out_to}@${domain_out_to}")"
+
         # Mutt format:
         #   send-hook '~t "^foo@bar.com$"' 'set from="Real Name <bar@foo.com>"'
         # Alternatively, use the following, but then you'd have to extract out the real name, rather than using the "fallback" default real name (which is also nice to leave unchanged).
